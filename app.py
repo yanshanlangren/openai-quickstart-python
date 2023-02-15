@@ -7,7 +7,7 @@ app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-@app.route("/", methods=("GET", "POST"))
+@app.route("/ask", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
         animal = request.form["animal"]
@@ -16,12 +16,12 @@ def index():
             prompt=animal,
             temperature=0.6,
         )
-        print("get response: %s" % response);
-        return redirect(url_for("index", result=response.choices[0].text))
-
-    result = request.args.get("result")
-    return render_template("index.html", result=result)
-
+        # print("get response: %s" % response)
+        # return redirect(url_for("index", result=response.choices[0].text))
+        return response.choices[0].text
+    return request.args.get("result")
+    # result = request.args.get("result")
+    # return render_template("index.html", result=result)
 
 # def generate_prompt(animal):
 #     return """Suggest three names for an animal that is a superhero.
