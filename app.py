@@ -14,7 +14,7 @@ def index():
 
 
 @app.route("/ask", methods=("GET", "POST"))
-def index():
+def ask():
     if request.method == "POST":
         animal = request.form["animal"]
         response = openai.Completion.create(
