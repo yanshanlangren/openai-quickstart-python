@@ -27,7 +27,7 @@
                         console.log("成功:" + result);
                         {#alert(result);#}
                         {#$("#result").innerText = ;#}
-                        $("#result").html(result.choice[0].text);
+                        $("#result").html(result.choices[0].text);
                     },
                     error: function (data) {
                         console.log("失败:" + data);
