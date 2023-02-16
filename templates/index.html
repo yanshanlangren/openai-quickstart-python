@@ -9,29 +9,31 @@
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 
     <script type="text/javascript">
-    $(document).ready(function() {
-        $("#ask").click(function () {
-            var formData = $("#askForm").serialize();
-            console.log(formData);
-            alert(formData);
-            $.ajax({
-                url: "http://localhost:5000/ask",
+        $(document).ready(function () {
+            var ajaxUrl = {
+                server: 'http://chat.itpanda.club'; //默认服务器地址
+            };
 
-                dataType: "json",
-                type: "post",
-                data: formData,
+            $("#ask").click(function () {
+                var formData = $("#askForm").serialize();
+                console.log(formData);
+                $.ajax({
+                    url: ajaxUrl.server + "/ask",
+                    dataType: "json",
+                    type: "post",
+                    data: formData,
 
-                success: function (result) {  //这里就是我出错的地方
-                    alert(result);
-                },
-                error: function (data) {
-                    alert("请求出错");
-                    alert(data);
-                }
+                    success: function (result) {  //这里就是我出错的地方
+                        alert(result);
+                    },
+                    error: function (data) {
+                        alert("请求出错");
+                        alert(data);
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 </head>
 
 <body>
