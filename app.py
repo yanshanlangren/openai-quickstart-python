@@ -15,7 +15,7 @@ def index():
 
 @app.route("/ask", methods=["POST"])
 def ask():
-    if request.method == "POST":
+    try:
         animal = request.form["animal"]
         response = openai.Completion.create(
             model="text-davinci-003",
@@ -25,6 +25,8 @@ def ask():
         print("get response: %s" % response)
         # return redirect(url_for("index", result=response.choices[0].text))
         return response.choices[0].text
+    except Exception as e:
+        print(e)
     return request.args.get("result")
 
 # def generate_prompt(animal):
