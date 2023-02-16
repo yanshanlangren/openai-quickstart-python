@@ -25,11 +25,12 @@ def ask():
         )
         print("get response: %s" % response)
         # return redirect(url_for("index", result=response.choices[0].text))
-        return response.choices[0].text
+        # return response.choices[0].text
+        return response
     except Exception as e:
         print(e)
-    return request.args.get("result")
-
+    # return request.args.get("result")
+    return request
 # def generate_prompt(animal):
 #     return """Suggest three names for an animal that is a superhero.
 #

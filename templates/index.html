@@ -27,13 +27,13 @@
                         console.log("成功:" + result);
                         {#alert(result);#}
                         {#$("#result").innerText = ;#}
-                        $("#result").append(result);
+                        $("#result").html(result.choice[0].text);
                     },
                     error: function (data) {
                         console.log("失败:" + data);
                         {#alert("请求出错");#}
                         {#alert(data);#}
-                        $("#result").append("error:" + data);
+                        $("#result").html("error:" + data);
                     }
                 });
             });
