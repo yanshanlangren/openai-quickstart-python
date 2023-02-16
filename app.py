@@ -17,6 +17,7 @@ def index():
 def ask():
     try:
         animal = request.form["animal"]
+        print(animal)
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=animal,
