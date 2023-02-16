@@ -22,7 +22,7 @@ def completions():
             model="text-davinci-003",
             prompt=animal,
             temperature=0.6,
-            max=2048
+            max_tokens=2048
         )
         print("completions response: %s" % response)
         # return redirect(url_for("index", result=response.choices[0].text))
