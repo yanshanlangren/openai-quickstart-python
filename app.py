@@ -21,8 +21,20 @@ def completions():
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=animal,
+            # suffix="",
+            max_tokens=2048,
             temperature=0.6,
-            max_tokens=2048
+            # top_p=1,
+            # n=1,
+            # stream=False,
+            # logprobs=None,
+            # echo=False,
+            # stop=None,
+            # presence_penalty=0,
+            # frequency_penalty=0,
+            # best_of=0,
+            # logit_bias=0,
+            # user="",
         )
         print("completions response: %s" % response)
         # return redirect(url_for("index", result=response.choices[0].text))
@@ -49,6 +61,37 @@ def model(model_id):
     try:
         response = openai.Model.get(model_id)
         print("model response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/edits", methods=["POST"])
+def edits():
+    try:
+        _input = request.form["input"]
+        instruction = request.form["instruction"]
+        response = openai.Edit.create(
+            model="text-davinci-003",
+            input=_input,
+            instruction=instruction,
+        )
+        print("edit response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/images/generations", methods=["POST"])
+def generate_images():
+    try:
+        prompt = request.form["prompt"]
+        response = openai.Edit.create(
+            prompt=prompt,
+            n=1,
+            size="1024x1024",
+        )
+        print("generate image response: %s" % response)
     except Exception as e:
         print(e)
     return request
