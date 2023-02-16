@@ -13,8 +13,8 @@ def index():
     return render_template("index.html", result=result)
 
 
-@app.route("/ask", methods=["POST"])
-def ask():
+@app.route("/completions", methods=["POST"])
+def completions():
     try:
         animal = request.form["animal"]
         print(animal)
@@ -22,8 +22,9 @@ def ask():
             model="text-davinci-003",
             prompt=animal,
             temperature=0.6,
+            max=2048
         )
-        print("get response: %s" % response)
+        print("completions response: %s" % response)
         # return redirect(url_for("index", result=response.choices[0].text))
         # return response.choices[0].text
         return response
@@ -31,14 +32,23 @@ def ask():
         print(e)
     # return request.args.get("result")
     return request
-# def generate_prompt(animal):
-#     return """Suggest three names for an animal that is a superhero.
-#
-# Animal: Cat
-# Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-# Animal: Dog
-# Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-# Animal: {}
-# Names:""".format(
-#         animal.capitalize()
-#     )
+
+
+@app.route("/models", methods=["GET"])
+def models():
+    try:
+        response = openai.Model.list()
+        print("models response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/models/<model_id>", methods=["GET"])
+def model(model_id):
+    try:
+        response = openai.Model.get(model_id)
+        print("model response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
