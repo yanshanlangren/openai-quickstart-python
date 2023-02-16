@@ -13,7 +13,7 @@ def index():
     return render_template("index.html", result=result)
 
 
-@app.route("/ask", methods=("GET", "POST"))
+@app.route("/ask", methods="POST")
 def ask():
     if request.method == "POST":
         animal = request.form["animal"]

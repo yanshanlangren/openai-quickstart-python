@@ -7,30 +7,32 @@
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-</head>
 
-<script type="text/javascript">
-    $("#ask").click(function () {
-        var formData = $("#askForm").serialize();
-        console.log(formData);
-        alert(formData);
-        $.ajax({
-            url: "http://localhost:5000/ask",
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#ask").click(function () {
+            var formData = $("#askForm").serialize();
+            console.log(formData);
+            alert(formData);
+            $.ajax({
+                url: "http://localhost:5000/ask",
 
-            dataType: "json",
-            type: "post",
-            data: formData,
+                dataType: "json",
+                type: "post",
+                data: formData,
 
-            success: function (result) {  //这里就是我出错的地方
-                alert(result);
-            },
-            error: function (data) {
-                alert("请求出错");
-                alert(data);
-            }
+                success: function (result) {  //这里就是我出错的地方
+                    alert(result);
+                },
+                error: function (data) {
+                    alert("请求出错");
+                    alert(data);
+                }
+            });
         });
     });
 </script>
+</head>
 
 <body>
 <img src="{{ url_for('static', filename='dog.png') }}" class="icon"/>
@@ -38,7 +40,7 @@
 <form id="askForm" action="/" method="post">
     <input type="text" name="animal" placeholder="输入您的问题" required/>
 </form>
-<label id="ask">提问</label>
+<button id="ask">提问</button>
 {% if result %}
     <div class="result">{{ result }}</div>
 {% endif %}
