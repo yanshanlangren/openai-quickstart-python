@@ -22,7 +22,7 @@ def ask():
             prompt=animal,
             temperature=0.6,
         )
-        # print("get response: %s" % response)
+        print("get response: %s" % response)
         # return redirect(url_for("index", result=response.choices[0].text))
         return response.choices[0].text
     return request.args.get("result")
