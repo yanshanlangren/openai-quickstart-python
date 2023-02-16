@@ -25,12 +25,14 @@
 
                     success: function (result) {  //这里就是我出错的地方
                         console.log("成功:" + result);
-                        alert(result);
+                        {#alert(result);#}
+                        $("#result").innerText = result;
                     },
                     error: function (data) {
                         console.log("失败:" + data);
-                        alert("请求出错");
-                        alert(data);
+                        {#alert("请求出错");#}
+                        {#alert(data);#}
+                        $("#result").innerText = "error:" + data;
                     }
                 });
             });
