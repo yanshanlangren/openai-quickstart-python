@@ -86,8 +86,42 @@ def edits():
 def generate_images():
     try:
         prompt = request.form["prompt"]
-        response = openai.Edit.create(
+        response = openai.Image.create(
             prompt=prompt,
+            n=1,
+            size="1024x1024",
+        )
+        print("generate image response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/images/edit", methods=["POST"])
+def edit_images():
+    try:
+        file_name = request.form["file_name"]
+        mask = request.form["mask"]
+        prompt = request.form["prompt"]
+        response = openai.Image.create(
+            image=open(file_name, "rb"),
+            mask=open(mask, "rb"),
+            prompt=prompt,
+            n=1,
+            size="1024x1024",
+        )
+        print("generate image response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/images/variations", methods=["POST"])
+def vary_images():
+    try:
+        file_name = request.form["file_name"]
+        response = openai.Image.create(
+            image=open(file_name),
             n=1,
             size="1024x1024",
         )
