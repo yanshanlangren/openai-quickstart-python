@@ -26,7 +26,7 @@
                         console.log("成功:" + result);
                         $("#dialog").html("");
                         for (let message in result.dialog) {
-                            $("#dialog").append(message.role + ":" + message.content + "<br/>");
+                            $("#dialog").append(result.dialog[message]["role"] + ":" + result.dialog[message]["content"] + "<br/>");
                         }
                     },
                     error: function (data) {
