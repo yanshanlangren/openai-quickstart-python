@@ -178,13 +178,19 @@ def chat():
     print("=====>dialog[%s]" % dialog)
     try:
         prompt = request.form["prompt"]
-        dialog.append({"role": "user", "content": prompt})
+        dialog.append({
+            "role": "user",
+            "content": prompt
+        })
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=dialog
         )
         print("chat completion response: %s" % response)
-        dialog.append({"assistant": response.get("choices")[0].get("message").get("content")})
+        dialog.append({
+            "role": "assistant",
+            "content": response.get("choices")[0].get("message").get("content")
+        })
         print("<=====dialog[%s]" % dialog)
         return {"dialog": dialog}
     except Exception as e:
