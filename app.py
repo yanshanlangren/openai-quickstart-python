@@ -175,6 +175,7 @@ dialog = []
 @app.route("/chat/completions", methods=["POST"])
 def chat():
     global dialog
+    print("=====>dialog[%s]" % dialog)
     try:
         prompt = request.form["prompt"]
         dialog.append({"role": "user", "content": prompt})
@@ -184,6 +185,7 @@ def chat():
         )
         print("chat completion response: %s" % response)
         dialog.append({"assistant": response.get("choices")[0].get("message").get("content")})
+        print("<=====dialog[%s]" % dialog)
         return {"dialog": dialog}
     except Exception as e:
         print(e)
