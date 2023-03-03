@@ -169,7 +169,7 @@ def audio_transcriptions():
     return request
 
 
-diaglog = []
+dialog = []
 
 
 @app.route("/chat/completions", methods=["POST"])
@@ -177,13 +177,13 @@ def chat():
     global dialog
     try:
         prompt = request.form["prompt"]
-        dialog.add({"role": "user", "content": prompt})
+        dialog.append({"role": "user", "content": prompt})
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=dialog
         )
         print("chat completion response: %s" % response)
-        dialog.add({"assistant": response.choices[0].get("messages").get("content")})
+        dialog.append({"assistant": response.choices[0].get("messages").get("content")})
         return dialog
     except Exception as e:
         print(e)
