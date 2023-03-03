@@ -184,7 +184,7 @@ def chat():
         )
         print("chat completion response: %s" % response)
         dialog.append({"assistant": response.get("choices")[0].get("message").get("content")})
-        return dialog
+        return {"dialog": dialog}
     except Exception as e:
         print(e)
     return request
