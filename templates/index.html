@@ -14,6 +14,25 @@
                 server: 'http://chat.itpanda.club' //默认服务器地址
             };
 
+            $("#chat").click(function () {
+                var formData = $("#askForm").serialize();
+                console.log(formData);
+                $.ajax({
+                    url: ajaxUrl.server + "/chat/completions",
+                    dataType: "json",
+                    type: "post",
+                    data: formData,
+                    success: function (result) {
+                        console.log("成功:" + result);
+                        $("#dialog").html(result);
+                    },
+                    error: function (data) {
+                        console.log("失败:" + data);
+                        $("#dialog").html("error:" + data);
+                    }
+                });
+            });
+
             $("#ask").click(function () {
                 var formData = $("#askForm").serialize();
                 console.log(formData);
@@ -44,9 +63,11 @@
 <body>
 <img src="{{ url_for('static', filename='dog.png') }}" class="icon"/>
 <h3>输入您的问题</h3>
+<div id="dialog"></div>
 <form id="askForm" action="/" method="post">
-    <input type="text" name="animal" placeholder="输入您的问题" required/>
+    <input type="text" name="prompt" placeholder="输入您的问题" required/>
 </form>
+<button id="chat">聊天</button>
 <button id="ask">提问</button>
 <div id="result"></div>
 </body>

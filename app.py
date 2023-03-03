@@ -1,7 +1,7 @@
 import os
 
 import openai
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -16,7 +16,7 @@ def index():
 @app.route("/completions", methods=["POST"])
 def completions():
     try:
-        animal = request.form["animal"]
+        animal = request.form["prompt"]
         print(animal)
         response = openai.Completion.create(
             model="text-davinci-003",
@@ -126,6 +126,65 @@ def vary_images():
             size="1024x1024",
         )
         print("generate image response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/fine_tuned/list", methods=["GET"])
+def fine_tuned_list():
+    try:
+        response = openai.Model.list()
+        print("fine tuned list response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/fine_tuned/completions", methods=["POST"])
+def fine_tuned_completions():
+    try:
+        fine_tuned_model = request.form["fine_tuned_model"]
+        prompt = request.form["prompt"]
+        response = openai.Completion.create(
+            model=fine_tuned_model,
+            prompt=prompt
+        )
+        print("generate image response: %s" % response)
+    except Exception as e:
+        print(e)
+    return request
+
+
+@app.route("/audio/transcriptions", methods=["POST"])
+def audio_transcriptions():
+    try:
+        audio_file_name = request.form["file_path"]
+        audio_file = open(audio_file_name, "rb")
+        response = openai.Audio.transcribe("whisper-1", audio_file)
+        print("audio transcriptions response: %s" % response)
+        return response
+    except Exception as e:
+        print(e)
+    return request
+
+
+diaglog = []
+
+
+@app.route("/chat/completions", methods=["POST"])
+def chat():
+    global dialog
+    try:
+        prompt = request.form["prompt"]
+        dialog.add({"role": "user", "content": prompt})
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=dialog
+        )
+        print("chat completion response: %s" % response)
+        dialog.add({"assistant": response.choices[0].get("messages").get("content")})
+        return dialog
     except Exception as e:
         print(e)
     return request
