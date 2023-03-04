@@ -207,7 +207,7 @@ def chat():
 
 
 @app.route("/file/upload", methods=["POST"])
-def chat():
+def file_upload():
     try:
         audio_file = request.form["audio"]
         print(audio_file)
