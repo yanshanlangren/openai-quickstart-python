@@ -65,9 +65,11 @@
 
 <body>
 <img src="{{ url_for('static', filename='dog.png') }}" class="icon"/>
+
 <h3>输入您的问题</h3>
 <div id="dialog"></div>
 <form id="askForm" action="/" method="post">
+    <input type="text" name="system" placeholder="定义机器角色" required/>
     <input type="text" name="prompt" placeholder="输入您的问题" required/>
 </form>
 <button id="chat">聊天</button>

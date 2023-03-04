@@ -178,6 +178,13 @@ def chat():
     print("=====>dialog[%s]" % dialog)
     try:
         prompt = request.form["prompt"]
+        system = request.form["system"]
+
+        if system and not dialog:
+            dialog.append({
+                "role": "system",
+                "content": system
+            })
         dialog.append({
             "role": "user",
             "content": prompt
