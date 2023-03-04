@@ -35,8 +35,8 @@
                     }
                 });
             });
-
-            $("#ask").click(function () {
+            /**
+             $("#ask").click(function () {
                 var formData = $("#askForm").serialize();
                 console.log(formData);
                 $.ajax({
@@ -59,6 +59,27 @@
                     }
                 });
             });
+             **/
+
+            $("#picGen").click(function () {
+                var formData = $("#picForm").serialize();
+                $.ajax({
+                    url: ajaxUrl.server + "/images/generations",
+                    dataType: "json",
+                    type: "post",
+                    data: formData,
+                    success: function (result) {
+                        console.log("成功:" + result);
+                        console.log("url" + result.data[0].url);
+                        $("#pic").attr('src', result.data[0].url);
+                    },
+                    error: function (data) {
+                        console.log("失败:" + data);
+                        alert("error:" + data);
+                    }
+                })
+            });
+
         });
     </script>
 </head>
@@ -73,6 +94,13 @@
     <input type="text" name="prompt" placeholder="输入您的问题" required/>
 </form>
 <button id="chat">聊天</button>
-<button id="ask">提问</button>
-<div id="result"></div>
+{#<button id="ask">提问</button>#}
+{#<div id="result"></div>#}
+
+
+<form id="picForm" action="/" method="post">
+    <input type="text" name="prompt" placeholder="输入您想生成的图片" required/>
+</form>
+<img id="pic" hidden="hidden"/>
+<button id="picGen">生成图片</button>
 </body>

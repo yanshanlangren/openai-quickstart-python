@@ -92,6 +92,7 @@ def generate_images():
             size="1024x1024",
         )
         print("generate image response: %s" % response)
+        return response
     except Exception as e:
         print(e)
     return request
