@@ -204,3 +204,16 @@ def chat():
     except Exception as e:
         print(e)
     return request
+
+
+@app.route("/file/upload", methods=["POST"])
+def chat():
+    try:
+        audio_file = request.form["audio"]
+        print(audio_file)
+        with open("./record.webm", "w", encoding="utf-8") as f:
+            f.write(audio_file)
+        return {"success": "dialog"}
+    except Exception as e:
+        print(e)
+    return request
