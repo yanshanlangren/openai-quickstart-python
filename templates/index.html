@@ -11,7 +11,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var ajaxUrl = {
-                server: 'http://chat.itpanda.club' //默认服务器地址
+                server: 'http://localhost:5000' //默认服务器地址
             };
 
             $("#chat").click(function () {
@@ -113,20 +113,17 @@
 
                     console.log(file)
 
-                    let data = new FormData();
-                    data.append('audio', file);
+                    var fileData = new FormData();
+                    fileData.append('audio', file);
+                    console.log(fileData)
 
                     $.ajax({
                         url: ajaxUrl.server + "/file/upload",
-                        dataType: "json",
-                        type: "post",
-                        data: data,
-                        success: function (result) {
-                            console.log("成功:" + result);
-                        },
-                        error: function (data) {
-                            console.log("失败:" + data);
-                        }
+                        type: 'POST',
+                        data: fileData,
+                        cache: false,
+                        processData: false,
+                        contentType: false
                     })
 
                     // 将blob转换为地址，一般用于页面上面的回显，这个url可以直接被 audio 标签使用

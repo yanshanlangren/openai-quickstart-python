@@ -209,11 +209,12 @@ def chat():
 @app.route("/file/upload", methods=["POST"])
 def file_upload():
     try:
-        audio_file = request.form["audio"]
-        print(audio_file)
-        with open("./record.webm", "w", encoding="utf-8") as f:
-            f.write(audio_file)
-        return {"success": "dialog"}
+        audio_file = request.files["audio"]
+        audio_file.save("./record.webm")
+        trans = open("./record.webm", "rb")
+        response = openai.Audio.transcribe("whisper-1", trans)
+        print("audio transcriptions response: %s" % response)
+        return response
     except Exception as e:
         print(e)
     return request
