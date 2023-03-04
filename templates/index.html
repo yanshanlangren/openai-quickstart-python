@@ -72,6 +72,7 @@
                         console.log("成功:" + result);
                         console.log("url" + result.data[0].url);
                         $("#pic").attr('src', result.data[0].url);
+                        $("#pic").show();
                     },
                     error: function (data) {
                         console.log("失败:" + data);
