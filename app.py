@@ -225,10 +225,16 @@ def file_upload():
             #         "role": "system",
             #         "content": system
             #     })
-            dialog.append({
-                "role": "user",
-                "content": prompt
-            })
+            if dialog:
+                dialog.append({
+                    "role": "user",
+                    "content": prompt
+                })
+            else:
+                dialog.append({
+                    "role": "system",
+                    "content": prompt
+                })
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=dialog
