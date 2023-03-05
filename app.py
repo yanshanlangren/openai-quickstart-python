@@ -176,7 +176,6 @@ dialog = []
 @app.route("/chat/completions", methods=["POST"])
 def chat():
     global dialog
-    print("=====>dialog[%s]" % dialog)
     try:
         prompt = request.form["prompt"]
         system = request.form["system"]
@@ -199,7 +198,6 @@ def chat():
             "role": "assistant",
             "content": response.get("choices")[0].get("message").get("content")
         })
-        print("<=====dialog[%s]" % dialog)
         return {"dialog": dialog}
     except Exception as e:
         print(e)
@@ -214,7 +212,36 @@ def file_upload():
         trans = open("./record.webm", "rb")
         response = openai.Audio.transcribe("whisper-1", trans)
         print("audio transcriptions response: %s" % response)
-        return response
+
+        prompt = response.get("text")
+
+        global dialog
+        try:
+            # prompt = request.form["prompt"]
+            # system = request.form["system"]
+
+            # if system and not dialog:
+            #     dialog.append({
+            #         "role": "system",
+            #         "content": system
+            #     })
+            dialog.append({
+                "role": "user",
+                "content": prompt
+            })
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=dialog
+            )
+            print("chat completion response: %s" % response)
+            dialog.append({
+                "role": "assistant",
+                "content": response.get("choices")[0].get("message").get("content")
+            })
+            return {"dialog": dialog}
+        except Exception as e:
+            print(e)
+        return request
     except Exception as e:
         print(e)
     return request

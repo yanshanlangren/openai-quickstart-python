@@ -124,7 +124,18 @@
                         data: fileData,
                         cache: false,
                         processData: false,
-                        contentType: false
+                        contentType: false,
+                        success: function (result) {
+                            console.log("成功:" + result);
+                            $("#dialog").html("");
+                            for (let message in result.dialog) {
+                                $("#dialog").append(result.dialog[message]["role"] + ":" + result.dialog[message]["content"] + "<br/>");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("失败:" + data);
+                            $("#dialog").html("error:" + data);
+                        }
                     })
 
                     // 将blob转换为地址，一般用于页面上面的回显，这个url可以直接被 audio 标签使用
