@@ -35,7 +35,8 @@ def tts(text):
         resp = client.TextToVoice(req)
         # 输出json格式的字符串回包
         resp_json = resp.to_json_string()
-        return resp_json.Audio
+        print(resp_json)
+        return resp.Audio
 
     except TencentCloudSDKException as err:
         print(err)
