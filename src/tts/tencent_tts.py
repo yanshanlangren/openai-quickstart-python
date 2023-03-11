@@ -23,7 +23,8 @@ def tts(text):
         client = tts_client.TtsClient(cred, "ap-shanghai", clientProfile)
 
         # 实例化一个请求对象,每个接口都会对应一个request对象
-        req = models.TextToVoiceRequest()
+        # req = models.TextToVoiceRequest()
+        req = models.CreateTtsTaskRequest()
         params = {
             "Text": text,
             "SessionId": "123",
