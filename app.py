@@ -3,6 +3,8 @@ import os
 import openai
 from flask import Flask, render_template, request
 
+from src.tts.tencent_tts import tts
+
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -240,11 +242,13 @@ def file_upload():
                 messages=dialog
             )
             print("chat completion response: %s" % response)
+            resp_content = response.get("choices")[0].get("message").get("content")
             dialog.append({
                 "role": "assistant",
-                "content": response.get("choices")[0].get("message").get("content")
+                "content": resp_content
             })
-            return {"dialog": dialog}
+            audio = tts(resp_content)
+            return {"dialog": dialog, "audio": audio}
         except Exception as e:
             print(e)
         return request
