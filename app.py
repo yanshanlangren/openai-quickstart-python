@@ -247,7 +247,12 @@ def file_upload():
                 "role": "assistant",
                 "content": resp_content
             })
-            audio = tts(resp_content)
+            if len(resp_content) < 150:
+                print("whole content")
+                audio = tts(resp_content)
+            else:
+                print("first 150:[%s]" % resp_content[:150])
+                audio = tts(resp_content[:150])
             return {"dialog": dialog, "audio": audio}
         except Exception as e:
             print(e)
