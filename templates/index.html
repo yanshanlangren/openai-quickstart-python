@@ -166,7 +166,8 @@
 <body>
 <img src="{{ url_for('static', filename='dog.png') }}" class="icon"/>
 <div>
-    <div id="dialog"></div>
+    <h3>输入内容开始对话</h3>
+    <div id="textDialog"></div>
     <form id="askForm" action="/" method="post">
         <input type="text" name="system" placeholder="定义机器角色" required/>
         <input type="text" name="prompt" placeholder="输入您的问题" required/>
@@ -174,11 +175,13 @@
     <button id="chat">聊天</button>
 </div>
 <div>
+    <h3>点击"录音"开始，结束后点击"停止"</h3>
+    <div id="dialog"></div>
     <audio controls="controls" autobuffer="autobuffer" id="userAudio" preload>
         对不起，您的浏览器不支持HTML5音频播放。
     </audio>
-    <button id="record">开始录音</button>
-    <button id="stop">停止录音</button>
+    <button id="record">录音</button>
+    <button id="stop">停止</button>
 </div>
 <div>
     <audio controls="controls" autobuffer="autobuffer" id="robotAudio" preload>
@@ -188,9 +191,10 @@
 </div>
 
 <div>
+    <h3>输入内容，点击生成</h3>
     <form id="picForm" action="/" method="post">
         <input type="text" name="prompt" placeholder="输入您想生成的图片" required/>
-        <button id="picGen">生成图片</button>
+        <button id="picGen">生成</button>
     </form>
     <img id="pic" hidden="hidden"/>
 </div>
