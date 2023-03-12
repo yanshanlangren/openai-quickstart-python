@@ -1,3 +1,4 @@
+import json
 import os
 
 import openai
@@ -38,7 +39,7 @@ def completions():
             # logit_bias=0,
             # user="",
         )
-        print("completions response: %s" % response)
+        print("completions response: %s" % json.dumps(response))
         # return redirect(url_for("index", result=response.choices[0].text))
         # return response.choices[0].text
         return response
@@ -52,7 +53,7 @@ def completions():
 def models():
     try:
         response = openai.Model.list()
-        print("models response: %s" % response)
+        print("models response: %s" % json.dumps(response))
     except Exception as e:
         print(e)
     return request
@@ -62,7 +63,7 @@ def models():
 def model(model_id):
     try:
         response = openai.Model.get(model_id)
-        print("model response: %s" % response)
+        print("model response: %s" % json.dumps(response))
     except Exception as e:
         print(e)
     return request
@@ -78,7 +79,7 @@ def edits():
             input=_input,
             instruction=instruction,
         )
-        print("edit response: %s" % response)
+        print("edit response: %s" % json.dumps(response))
     except Exception as e:
         print(e)
     return request
@@ -93,7 +94,7 @@ def generate_images():
             n=1,
             size="1024x1024",
         )
-        print("generate image response: %s" % response)
+        print("generate image response: %s" % json.dumps(response))
         return response
     except Exception as e:
         print(e)
@@ -113,7 +114,7 @@ def edit_images():
             n=1,
             size="1024x1024",
         )
-        print("generate image response: %s" % response)
+        print("generate image response: %s" % json.dumps(response))
     except Exception as e:
         print(e)
     return request
@@ -128,7 +129,7 @@ def vary_images():
             n=1,
             size="1024x1024",
         )
-        print("generate image response: %s" % response)
+        print("generate image response: %s" % json.dumps(response))
     except Exception as e:
         print(e)
     return request
@@ -138,7 +139,7 @@ def vary_images():
 def fine_tuned_list():
     try:
         response = openai.Model.list()
-        print("fine tuned list response: %s" % response)
+        print("fine tuned list response: %s" % json.dumps(response))
     except Exception as e:
         print(e)
     return request
@@ -153,7 +154,7 @@ def fine_tuned_completions():
             model=fine_tuned_model,
             prompt=prompt
         )
-        print("generate image response: %s" % response)
+        print("generate image response: %s" % json.dumps(response))
     except Exception as e:
         print(e)
     return request
@@ -165,7 +166,7 @@ def audio_transcriptions():
         audio_file_name = request.form["file_path"]
         audio_file = open(audio_file_name, "rb")
         response = openai.Audio.transcribe("whisper-1", audio_file)
-        print("audio transcriptions response: %s" % response)
+        print("audio transcriptions response: %s" % json.dumps(response))
         return response
     except Exception as e:
         print(e)
@@ -195,7 +196,7 @@ def chat():
             model="gpt-3.5-turbo",
             messages=dialog
         )
-        print("chat completion response: %s" % response)
+        print("chat completion response: %s" % json.dumps(response))
         dialog.append({
             "role": "assistant",
             "content": response.get("choices")[0].get("message").get("content")
@@ -213,7 +214,7 @@ def file_upload():
         audio_file.save("./record.webm")
         trans = open("./record.webm", "rb")
         response = openai.Audio.transcribe("whisper-1", trans)
-        print("audio transcriptions response: %s" % response)
+        print("audio transcriptions response: %s" % json.dumps(response))
 
         prompt = response.get("text")
 
@@ -241,7 +242,7 @@ def file_upload():
                 model="gpt-3.5-turbo",
                 messages=dialog
             )
-            print("chat completion response: %s" % response)
+            print("chat completion response: %s" % json.dumps(response))
             resp_content = response.get("choices")[0].get("message").get("content")
             dialog.append({
                 "role": "assistant",
