@@ -174,14 +174,11 @@
     <button id="chat">聊天</button>
 </div>
 <div>
-
-    {#<audio id="record">语音</audio>#}
-
     <audio controls="controls" autobuffer="autobuffer" id="userAudio" preload>
         对不起，您的浏览器不支持HTML5音频播放。
-        <button id="record">开始录音</button>
-        <button id="stop">停止录音</button>
     </audio>
+    <button id="record">开始录音</button>
+    <button id="stop">停止录音</button>
 </div>
 <div>
     <audio controls="controls" autobuffer="autobuffer" id="robotAudio" preload>
@@ -189,9 +186,6 @@
     </audio>
     <button id="play">播放</button>
 </div>
-{#<button id="pause">停止</button>#}
-{#<button id="ask">提问</button>#}
-{#<div id="result"></div>#}
 
 <div>
     <form id="picForm" action="/" method="post">
