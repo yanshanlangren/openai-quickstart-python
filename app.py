@@ -46,7 +46,7 @@ def completions():
     except Exception as e:
         print(e)
     # return request.args.get("result")
-    return request
+    return {}
 
 
 @app.route("/models", methods=["GET"])
@@ -56,7 +56,7 @@ def models():
         print("models response: %s" % json.dumps(response, ensure_ascii=False))
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/models/<model_id>", methods=["GET"])
@@ -66,7 +66,7 @@ def model(model_id):
         print("model response: %s" % json.dumps(response, ensure_ascii=False))
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/edits", methods=["POST"])
@@ -82,7 +82,7 @@ def edits():
         print("edit response: %s" % json.dumps(response, ensure_ascii=False))
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/images/generations", methods=["POST"])
@@ -98,7 +98,7 @@ def generate_images():
         return response
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/images/edit", methods=["POST"])
@@ -117,7 +117,7 @@ def edit_images():
         print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/images/variations", methods=["POST"])
@@ -132,7 +132,7 @@ def vary_images():
         print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/fine_tuned/list", methods=["GET"])
@@ -142,7 +142,7 @@ def fine_tuned_list():
         print("fine tuned list response: %s" % json.dumps(response, ensure_ascii=False))
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/fine_tuned/completions", methods=["POST"])
@@ -157,7 +157,7 @@ def fine_tuned_completions():
         print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/audio/transcriptions", methods=["POST"])
@@ -170,7 +170,7 @@ def audio_transcriptions():
         return response
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 dialog = []
@@ -204,7 +204,7 @@ def chat():
         return {"dialog": dialog}
     except Exception as e:
         print(e)
-    return request
+    return {}
 
 
 @app.route("/file/upload", methods=["POST"])
@@ -258,7 +258,7 @@ def file_upload():
             return {"dialog": dialog, "audio": audio}
         except Exception as e:
             print(e)
-        return request
+        return {}
     except Exception as e:
         print(e)
-    return request
+    return {}
