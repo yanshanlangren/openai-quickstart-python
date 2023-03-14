@@ -211,6 +211,7 @@ def chat():
 def file_upload():
     try:
         audio_file = request.files["audio"]
+        print(audio_file)
         audio_file.save("./record.webm")
         trans = open("./record.webm", "rb")
         response = openai.Audio.transcribe("whisper-1", trans)
