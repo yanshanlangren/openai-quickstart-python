@@ -25,14 +25,14 @@
                     data: formData,
                     success: function (result) {
                         console.log("成功:" + result);
-                        $("#dialog").html("");
+                        $("#textDialog").html("");
                         for (let message in result.dialog) {
-                            $("#dialog").append(result.dialog[message]["role"] + ":" + result.dialog[message]["content"] + "<br/>");
+                            $("#textDialog").append(result.dialog[message]["role"] + ":" + result.dialog[message]["content"] + "<br/>");
                         }
                     },
                     error: function (data) {
                         console.log("失败:" + data);
-                        $("#dialog").html("error:" + data);
+                        $("#textDialog").html("error:" + data);
                     }
                 });
             });
