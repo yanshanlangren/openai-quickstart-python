@@ -181,19 +181,19 @@ def chat():
     global dialog
     try:
         prompt = request.form["prompt"]
-        system = request.form["system"]
-
-        if system and not dialog:
+        if not dialog:
             dialog.append({
                 "role": "system",
-                "content": system
+                "content": prompt
             })
-        dialog.append({
-            "role": "user",
-            "content": prompt
-        })
+        else:
+            dialog.append({
+                "role": "user",
+                "content": prompt
+            })
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            # model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=dialog
         )
         print("chat completion response: %s" % json.dumps(response, ensure_ascii=False))
@@ -240,7 +240,8 @@ def file_upload():
                     "content": prompt
                 })
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                # model="gpt-3.5-turbo",
+                model="gpt-4",
                 messages=dialog
             )
             print("chat completion response: %s" % json.dumps(response, ensure_ascii=False))
