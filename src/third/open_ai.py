@@ -14,3 +14,11 @@ def chat_completion(dialog):
     except Exception as e:
         print(e)
         return None
+
+
+def audio_transcribe(trans):
+    try:
+        return openai.Audio.transcribe("whisper-1", trans)
+    except Exception as e:
+        print(e)
+        return None

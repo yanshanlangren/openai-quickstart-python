@@ -24,4 +24,4 @@ def chat(prompt):
         "role": "assistant",
         "content": response.get("choices")[0].get("message").get("content")
     })
-    return {"dialog": dialog}
+    return dialog

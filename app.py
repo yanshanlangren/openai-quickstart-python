@@ -1,9 +1,10 @@
 import json
 import os
-from flask import Flask, render_template, request
-from src.tts.tencent_tts import tts
 import openai
+from flask import Flask, render_template, request
+from src.third.tencent_tts import tts
 from src.service import chat_service
+from src.service import file_service
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -178,62 +179,18 @@ dialog = []
 @app.route("/chat/completions", methods=["POST"])
 def chat():
     prompt = request.form["prompt"]
-    return chat_service.chat(prompt)
+    return {"dialog": chat_service.chat(prompt)}
 
 
 @app.route("/file/upload", methods=["POST"])
 def file_upload():
-    try:
-        audio_file = request.files["audio"]
-        print(audio_file)
-        audio_file.save("./record.webm")
-        trans = open("./record.webm", "rb")
-        response = openai.Audio.transcribe("whisper-1", trans)
-        print("audio transcriptions response: %s" % json.dumps(response, ensure_ascii=False))
-
-        prompt = response.get("text")
-
-        global dialog
-        try:
-            # prompt = request.form["prompt"]
-            # system = request.form["system"]
-
-            # if system and not dialog:
-            #     dialog.append({
-            #         "role": "system",
-            #         "content": system
-            #     })
-            if dialog:
-                dialog.append({
-                    "role": "user",
-                    "content": prompt
-                })
-            else:
-                dialog.append({
-                    "role": "system",
-                    "content": prompt
-                })
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                # model="gpt-4.0",
-                messages=dialog
-            )
-            print("chat completion response: %s" % json.dumps(response, ensure_ascii=False))
-            resp_content = response.get("choices")[0].get("message").get("content")
-            dialog.append({
-                "role": "assistant",
-                "content": resp_content
-            })
-            if len(resp_content) < 150:
-                print("whole content")
-                audio = tts(resp_content)
-            else:
-                print("first 150:[%s]" % resp_content[:150])
-                audio = tts(resp_content[:150])
-            return {"dialog": dialog, "audio": audio}
-        except Exception as e:
-            print(e)
-        return {}
-    except Exception as e:
-        print(e)
-    return {}
+    audio_file = request.files["audio"]
+    prompt = file_service.file_upload(audio_file)
+    resp_content = chat_service.chat(prompt)
+    if len(resp_content) < 150:
+        print("whole content")
+        audio = tts(resp_content)
+    else:
+        print("first 150:[%s]" % resp_content[:150])
+        audio = tts(resp_content[:150])
+    return {"dialog": dialog, "audio": audio}
