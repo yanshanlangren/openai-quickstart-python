@@ -79,6 +79,7 @@ def edit_images():
             size="1024x1024",
         )
         print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
+        return response
     except Exception as e:
         print(e)
     return {}
@@ -94,6 +95,7 @@ def vary_images():
             size="1024x1024",
         )
         print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
+        return response
     except Exception as e:
         print(e)
     return {}
