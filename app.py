@@ -2,7 +2,6 @@ import json
 import os
 import openai
 from flask import Flask, render_template, request
-from src.third.tencent_tts import tts
 from src.service import chat_service
 from src.service import file_service
 
@@ -186,11 +185,4 @@ def chat():
 def file_upload():
     audio_file = request.files["audio"]
     prompt = file_service.file_upload(audio_file)
-    resp_content = chat_service.chat(prompt)
-    if len(resp_content) < 150:
-        print("whole content")
-        audio = tts(resp_content)
-    else:
-        print("first 150:[%s]" % resp_content[:150])
-        audio = tts(resp_content[:150])
-    return {"dialog": dialog, "audio": audio}
+    return chat_service.voice_chat(prompt)
