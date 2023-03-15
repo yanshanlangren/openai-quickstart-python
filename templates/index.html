@@ -110,7 +110,6 @@
 
                     // 录音可用事件监听，发生于mediaRecorder.stop()调用后，mediaRecorder.onstop 前
                     mediaRecorder.ondataavailable = (e) => {
-                        console.log("dataavailable")
                         console.log(e)
                         chunks.push(e.data)
                     }
@@ -169,7 +168,6 @@
     <h3>输入内容开始对话</h3>
     <div id="textDialog"></div>
     <form id="askForm" action="/" method="post">
-        <input type="text" name="system" placeholder="定义机器角色" required/>
         <input type="text" name="prompt" placeholder="输入您的问题" required/>
     </form>
     <button id="chat">聊天</button>
