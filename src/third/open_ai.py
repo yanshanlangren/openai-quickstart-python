@@ -22,3 +22,44 @@ def audio_transcribe(trans):
     except Exception as e:
         print(e)
         return None
+
+
+def list_model():
+    try:
+        return openai.Model.list()
+    except Exception as e:
+        print(e)
+        return None
+
+
+def get_model(model_id):
+    try:
+        return openai.Model.get(model_id)
+    except Exception as e:
+        print(e)
+        return None
+
+
+def completions(prompt):
+    try:
+        return openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            # suffix="",
+            max_tokens=2048,
+            temperature=0.6,
+            # top_p=1,
+            # n=1,
+            # stream=False,
+            # logprobs=None,
+            # echo=False,
+            # stop=None,
+            # presence_penalty=0,
+            # frequency_penalty=0,
+            # best_of=0,
+            # logit_bias=0,
+            # user="",
+        )
+    except Exception as e:
+        print(e)
+    return None

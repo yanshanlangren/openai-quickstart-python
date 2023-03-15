@@ -4,6 +4,8 @@ import openai
 from flask import Flask, render_template, request
 from src.service import chat_service
 from src.service import file_service
+from src.service import model_service
+from src.service import completions_service
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -17,55 +19,18 @@ def index():
 
 @app.route("/completions", methods=["POST"])
 def completions():
-    try:
-        animal = request.form["prompt"]
-        print(animal)
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=animal,
-            # suffix="",
-            max_tokens=2048,
-            temperature=0.6,
-            # top_p=1,
-            # n=1,
-            # stream=False,
-            # logprobs=None,
-            # echo=False,
-            # stop=None,
-            # presence_penalty=0,
-            # frequency_penalty=0,
-            # best_of=0,
-            # logit_bias=0,
-            # user="",
-        )
-        print("completions response: %s" % json.dumps(response, ensure_ascii=False))
-        # return redirect(url_for("index", result=response.choices[0].text))
-        # return response.choices[0].text
-        return response
-    except Exception as e:
-        print(e)
-    # return request.args.get("result")
-    return {}
+    prompt = request.form["prompt"]
+    return completions_service.completions(prompt)
 
 
 @app.route("/models", methods=["GET"])
 def models():
-    try:
-        response = openai.Model.list()
-        print("models response: %s" % json.dumps(response, ensure_ascii=False))
-    except Exception as e:
-        print(e)
-    return {}
+    return model_service.list()
 
 
 @app.route("/models/<model_id>", methods=["GET"])
 def model(model_id):
-    try:
-        response = openai.Model.get(model_id)
-        print("model response: %s" % json.dumps(response, ensure_ascii=False))
-    except Exception as e:
-        print(e)
-    return {}
+    return model_service.get(model_id)
 
 
 @app.route("/edits", methods=["POST"])
