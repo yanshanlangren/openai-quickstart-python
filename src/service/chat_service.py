@@ -41,19 +41,17 @@ def voice_chat(prompt):
             "content": prompt
         })
     response = openai.chat_completion(dialog=dialog)
-    resp_content = response.get("choices")[0].get("message").get("content")
-
-    if len(resp_content) < 150:
-        print("whole content")
-        audio = tts(resp_content)
-    else:
-        print("first 150:[%s]" % resp_content[:150])
-        audio = tts(resp_content[:150])
-
     if not response:
         return {}
     dialog.append({
         "role": "assistant",
         "content": response.get("choices")[0].get("message").get("content")
     })
+    resp_content = response.get("choices")[0].get("message").get("content")
+    if len(resp_content) < 150:
+        print("whole content:[%s]" % resp_content)
+        audio = tts(resp_content)
+    else:
+        print("first 150:[%s]" % resp_content[:150])
+        audio = tts(resp_content[:150])
     return {"dialog": dialog, "audio": audio}
