@@ -172,13 +172,10 @@ def audio_transcriptions():
     return {}
 
 
-dialog = []
-
-
 @app.route("/chat/completions", methods=["POST"])
 def chat():
     prompt = request.form["prompt"]
-    return {"dialog": chat_service.chat(prompt)}
+    return chat_service.chat(prompt)
 
 
 @app.route("/file/upload", methods=["POST"])
