@@ -193,7 +193,7 @@ def chat():
             })
         response = openai.ChatCompletion.create(
             # model="gpt-3.5-turbo",
-            model="gpt-4",
+            model="gpt-4.0",
             messages=dialog
         )
         print("chat completion response: %s" % json.dumps(response, ensure_ascii=False))
@@ -241,7 +241,7 @@ def file_upload():
                 })
             response = openai.ChatCompletion.create(
                 # model="gpt-3.5-turbo",
-                model="gpt-4",
+                model="gpt-4.0",
                 messages=dialog
             )
             print("chat completion response: %s" % json.dumps(response, ensure_ascii=False))
