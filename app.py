@@ -1,10 +1,9 @@
 import json
 import os
-
-import openai
 from flask import Flask, render_template, request
-
 from src.tts.tencent_tts import tts
+import openai
+from src.service import chat_service
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -178,33 +177,8 @@ dialog = []
 
 @app.route("/chat/completions", methods=["POST"])
 def chat():
-    global dialog
-    try:
-        prompt = request.form["prompt"]
-        if not dialog:
-            dialog.append({
-                "role": "system",
-                "content": prompt
-            })
-        else:
-            dialog.append({
-                "role": "user",
-                "content": prompt
-            })
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            # model="gpt-4.0",
-            messages=dialog
-        )
-        print("chat completion response: %s" % json.dumps(response, ensure_ascii=False))
-        dialog.append({
-            "role": "assistant",
-            "content": response.get("choices")[0].get("message").get("content")
-        })
-        return {"dialog": dialog}
-    except Exception as e:
-        print(e)
-    return {}
+    prompt = request.form["prompt"]
+    return chat_service.chat(prompt)
 
 
 @app.route("/file/upload", methods=["POST"])
