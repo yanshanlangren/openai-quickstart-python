@@ -63,3 +63,73 @@ def completions(prompt):
     except Exception as e:
         print(e)
     return None
+
+
+def edit(prompt, instruction):
+    try:
+        return openai.Edit.create(
+            model="text-davinci-003",
+            input=prompt,
+            instruction=instruction,
+        )
+    except Exception as e:
+        print(e)
+        return None
+
+
+def generate_image(prompt):
+    try:
+        return openai.Image.create(
+            prompt=prompt,
+            n=1,
+            size="1024x1024",
+        )
+    except Exception as e:
+        print(e)
+        return None
+
+
+def edit_image(file_name, mask, prompt):
+    try:
+        return openai.Image.create_edit(
+            image=open(file_name, "rb"),
+            mask=open(mask, "rb"),
+            prompt=prompt,
+            n=1,
+            size="1024x1024",
+        )
+    except Exception as e:
+        print(e)
+        return None
+
+
+def vary_image(file_name):
+    try:
+        return openai.Image.create_variation(
+            image=open(file_name, "rb"),
+            n=1,
+            size="1024x1024",
+        )
+    except Exception as e:
+        print(e)
+        return None
+
+
+def fine_tuned_completion(fine_tuned_model, prompt):
+    try:
+        return openai.Completion.create(
+            model=fine_tuned_model,
+            prompt=prompt
+        )
+    except Exception as e:
+        print(e)
+        return None
+
+
+def transcribe_voice(audio_file_name):
+    try:
+        audio_file = open(audio_file_name, "rb")
+        return openai.Audio.transcribe("whisper-1", audio_file)
+    except Exception as e:
+        print(e)
+        return None

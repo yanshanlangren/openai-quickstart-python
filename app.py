@@ -6,6 +6,10 @@ from src.service import chat_service
 from src.service import file_service
 from src.service import model_service
 from src.service import completions_service
+from src.service import edit_service
+from src.service import image_service
+from src.service import fine_tuned_service
+from src.service import audio_service
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -35,108 +39,53 @@ def model(model_id):
 
 @app.route("/edits", methods=["POST"])
 def edits():
-    try:
-        _input = request.form["input"]
-        instruction = request.form["instruction"]
-        response = openai.Edit.create(
-            model="text-davinci-003",
-            input=_input,
-            instruction=instruction,
-        )
-        print("edit response: %s" % json.dumps(response, ensure_ascii=False))
-    except Exception as e:
-        print(e)
-    return {}
+    _input = request.form["input"]
+    instruction = request.form["instruction"]
+    return edit_service.edit(prompt=_input, instruction=instruction)
 
 
 @app.route("/images/generations", methods=["POST"])
 def generate_images():
-    try:
-        prompt = request.form["prompt"]
-        response = openai.Image.create(
-            prompt=prompt,
-            n=1,
-            size="1024x1024",
-        )
-        print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
-        return response
-    except Exception as e:
-        print(e)
-    return {}
+    prompt = request.form["prompt"]
+    return image_service.generate_image(prompt=prompt)
 
 
 @app.route("/images/edit", methods=["POST"])
 def edit_images():
-    try:
-        file_name = request.form["file_name"]
-        mask = request.form["mask"]
-        prompt = request.form["prompt"]
-        response = openai.Image.create(
-            image=open(file_name, "rb"),
-            mask=open(mask, "rb"),
-            prompt=prompt,
-            n=1,
-            size="1024x1024",
-        )
-        print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
-        return response
-    except Exception as e:
-        print(e)
-    return {}
+    file_name = request.form["file_name"]
+    mask = request.form["mask"]
+    prompt = request.form["prompt"]
+    return image_service.edit_image(file_name=file_name, mask=mask, prompt=prompt)
 
 
 @app.route("/images/variations", methods=["POST"])
 def vary_images():
-    try:
-        file_name = request.form["file_name"]
-        response = openai.Image.create(
-            image=open(file_name),
-            n=1,
-            size="1024x1024",
-        )
-        print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
-        return response
-    except Exception as e:
-        print(e)
-    return {}
+    file_name = request.form["file_name"]
+    response = image_service.vary_image(file_name=file_name)
+    print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
+    return response
 
 
 @app.route("/fine_tuned/list", methods=["GET"])
 def fine_tuned_list():
-    try:
-        response = openai.Model.list()
-        print("fine tuned list response: %s" % json.dumps(response, ensure_ascii=False))
-    except Exception as e:
-        print(e)
-    return {}
+    response = model_service.list()
+    print("fine tuned list response: %s" % json.dumps(response, ensure_ascii=False))
+    return response
 
 
 @app.route("/fine_tuned/completions", methods=["POST"])
 def fine_tuned_completions():
-    try:
-        fine_tuned_model = request.form["fine_tuned_model"]
-        prompt = request.form["prompt"]
-        response = openai.Completion.create(
-            model=fine_tuned_model,
-            prompt=prompt
-        )
-        print("generate image response: %s" % json.dumps(response, ensure_ascii=False))
-    except Exception as e:
-        print(e)
-    return {}
+    fine_tuned_model = request.form["fine_tuned_model"]
+    prompt = request.form["prompt"]
+    response = fine_tuned_service.fine_tuned_completion(fine_tuned_model=fine_tuned_model, prompt=prompt)
+    return response
 
 
 @app.route("/audio/transcriptions", methods=["POST"])
 def audio_transcriptions():
-    try:
-        audio_file_name = request.form["file_path"]
-        audio_file = open(audio_file_name, "rb")
-        response = openai.Audio.transcribe("whisper-1", audio_file)
-        print("audio transcriptions response: %s" % json.dumps(response, ensure_ascii=False))
-        return response
-    except Exception as e:
-        print(e)
-    return {}
+    audio_file_name = request.form["file_path"]
+    response = audio_service.transcribe(audio_file_name=audio_file_name)
+    return response
 
 
 @app.route("/chat/completions", methods=["POST"])
