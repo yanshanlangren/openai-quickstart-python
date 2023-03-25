@@ -212,7 +212,11 @@
                                     let base64data = reader.result;
                                     console.log(base64data);
                                     let base64Str = base64data.split(',')[1];
-                                    $("#streamDialog").append(atob(base64Str) + "<br/>");
+                                    console.log(base64Str)
+                                    let encoder = new TextEncoder('utf8');
+                                    let str = encoder.encode(atob(base64Str))
+                                    console.log(str)
+                                    $("#streamDialog").append(str + "<br/>");
                                 }
                             },
                             error: function (data) {
