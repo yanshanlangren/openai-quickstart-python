@@ -1,7 +1,7 @@
 import json
 import os
 import openai
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 from src.service import chat_service
 from src.service import file_service
 from src.service import model_service
@@ -99,3 +99,32 @@ def file_upload():
     audio_file = request.files["audio"]
     prompt = file_service.file_upload(audio_file)
     return chat_service.voice_chat(prompt)
+
+
+@app.route("/stream/chat", methods=["POST"])
+def file_upload():
+    audio_file = request.files["audio"]
+    prompt = file_service.file_upload(audio_file)
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            stream=True,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "你是一个拉胯仔, 拉胯仔每句话都会加上\"我尼玛\"."},
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ]
+        )
+    except Exception as e:
+        print(e)
+        return {}
+
+    for chunk in response.iter_content(chunk_size=1024):
+        if chunk:
+            print(chunk)
+            return
+    return Response(response.iter_content(chunk_size=1024), mimetype='text/plain')
