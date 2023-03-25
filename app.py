@@ -124,7 +124,9 @@ def stream_chat():
         print(e)
         return {}
     print(response)
-    text = response['choices'][0]['text']
+    _next = next(response['choices'][0])
+    print("_next:[%s]" % _next)
+    text = _next['text']
 
     def generate():
         yield text
