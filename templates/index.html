@@ -211,7 +211,8 @@
                                 reader.onloadend = function () {
                                     let base64data = reader.result;
                                     console.log(base64data);
-                                    $("#streamDialog").append(base64data + "<br/>");
+                                    let base64Str = base64data.split(',')[1];
+                                    $("#streamDialog").append(atob(base64Str) + "<br/>");
                                 }
                             },
                             error: function (data) {
