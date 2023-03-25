@@ -102,7 +102,7 @@ def file_upload():
 
 
 @app.route("/stream/chat", methods=["POST"])
-def file_upload():
+def stream_chat():
     audio_file = request.files["audio"]
     prompt = file_service.file_upload(audio_file)
     try:
