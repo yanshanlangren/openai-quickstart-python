@@ -124,9 +124,6 @@ def stream_chat():
         print(e)
         return {}
     print(response)
-    # _next = next(response['choices'][0])
-    # print("_next:[%s]" % _next)
-    # text = _next['text']
     for data in response:
         print("data:[%s]" % data)
         text = data['choices'][0]
@@ -134,6 +131,8 @@ def stream_chat():
 
     def generate():
         if text and text.get("finish_reason") != "stop":
-            yield bytes(text.get("delta").get("content"), 'utf-8')
+            ret = bytes(text.get("delta").get("content"), 'utf-8')
+            print("ret byte[%s]" % ret)
+            yield ret
 
     return Response(generate(), mimetype='application/octet-stream')
