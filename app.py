@@ -123,7 +123,7 @@ def stream_chat():
         print(e)
         return {}
 
-    text = response['choices'][0]
+    text = response
 
     def generate():
         yield text
