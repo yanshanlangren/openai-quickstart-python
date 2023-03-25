@@ -213,8 +213,9 @@
                                     console.log(base64data);
                                     let base64Str = base64data.split(',')[1];
                                     console.log(base64Str)
-                                    let str = window.decodeURIComponent(window.atob(base64Str))
+                                    let str = new Buffer(base64Str, 'base64').toString('utf8');
                                     console.log(str)
+                                    console.log(new Buffer(decodeURIComponent(base64Str), 'base64').toString('utf8'));
                                     $("#streamDialog").append(str + "<br/>");
                                 }
                             },
