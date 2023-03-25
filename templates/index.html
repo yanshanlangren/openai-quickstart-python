@@ -159,7 +159,7 @@
             });
 
 
-            $("#streamAudio").click(function () {
+            $("#streamRecord").click(function () {
                 // 首先打开麦克风
                 navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
                     let chunks = [];
@@ -212,6 +212,10 @@
                         $("#userAudio").attr('src', url);
                     }
                 });
+            });
+
+            $("#streamStop").click(function () {
+                mediaRecorder && mediaRecorder.stop()
             });
 
         });
