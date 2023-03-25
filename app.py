@@ -122,7 +122,7 @@ def stream_chat():
     except Exception as e:
         print(e)
         return {}
-
+    print(response)
     text = response
 
     def generate():
