@@ -196,14 +196,20 @@
                             url: ajaxUrl.server + "/stream/chat",
                             type: 'POST',
                             data: fileData,
-                            //cache: false,
+                            cache: false,
                             processData: true,
-                            //contentType: false,
+                            contentType: false,
                             xhrFields: {
                                 onprogress: function (e) {
                                     console.log(e.currentTarget.responseText);
-                                    $("#streamDialog").append(e.currentTarget.responseText + "<br/>");
                                 }
+                            },
+                            success: function(result){
+                                console.log(result);
+                                $("#streamDialog").append(result + "<br/>");
+                            },
+                            error: function (data) {
+                                console.log("失败:" + data);
                             }
                         })
 
