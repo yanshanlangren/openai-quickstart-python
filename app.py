@@ -126,8 +126,9 @@ def stream_chat():
 
     def generate():
         for data in response:
+            print("data[%s]" % data)
             text = data['choices'][0]
-            if text and text.get("finish_reason") != "stop":
+            if text and text.get("delta") and text.get("delta").get("content"):
                 ret = bytes(text.get("delta").get("content"), 'utf-8')
                 print("ret byte[%s]" % ret)
                 yield ret
