@@ -123,13 +123,12 @@ def stream_chat():
     except Exception as e:
         print(e)
         return {}
-    print(response)
     for data in response:
         text = data['choices'][0]
 
     def generate():
-        print(text and text.get("finish_reason") != "stop")
-        if text and text.get("finish_reason") != "stop":
+        print(text)
+        while text and text.get("finish_reason") != "stop":
             ret = bytes(text.get("delta").get("content"), 'utf-8')
             print("ret byte[%s]" % ret)
             yield ret
