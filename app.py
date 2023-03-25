@@ -136,4 +136,4 @@ def stream_chat():
         if text and text.get("finish_reason") != "stop":
             yield bytes(text.get("delta").get("content"), 'utf-8')
 
-    return Response(generate(), mimetype='text/plain')
+    return Response(generate(), mimetype='text/event-stream')
