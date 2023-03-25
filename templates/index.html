@@ -196,9 +196,9 @@
                             url: ajaxUrl.server + "/stream/chat",
                             type: 'POST',
                             data: fileData,
-                            {#cache: false,#}
-                            {#processData: false,#}
-                            {#contentType: false,#}
+                            cache: false,
+                            processData: false,
+                            contentType: false,
                             xhrFields: {
                                 onprogress: function (e) {
                                     console.log(e.currentTarget.responseText);

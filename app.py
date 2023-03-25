@@ -104,6 +104,7 @@ def file_upload():
 @app.route("/stream/chat", methods=["POST"])
 def stream_chat():
     audio_file = request.files["audio"]
+    print(audio_file)
     prompt = file_service.file_upload(audio_file)
     try:
         response = openai.ChatCompletion.create(
