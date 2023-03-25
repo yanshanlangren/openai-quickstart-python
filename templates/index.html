@@ -209,7 +209,7 @@
 
                         // 将blob转换为地址，一般用于页面上面的回显，这个url可以直接被 audio 标签使用
                         let url = (window.URL || webkitURL).createObjectURL(blob);
-                        $("#userAudio").attr('src', url);
+                        $("#streamAudio").attr('src', url);
                     }
                 });
             });

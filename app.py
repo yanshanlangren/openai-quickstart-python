@@ -104,7 +104,6 @@ def file_upload():
 @app.route("/stream/chat", methods=["POST"])
 def stream_chat():
     audio_file = request.files["audio"]
-    print(audio_file)
     prompt = file_service.file_upload(audio_file)
     try:
         response = openai.ChatCompletion.create(
@@ -124,8 +123,9 @@ def stream_chat():
         print(e)
         return {}
 
-    for chunk in response.iter_content(chunk_size=1024):
-        if chunk:
-            print(chunk)
-            return
-    return Response(response.iter_content(chunk_size=1024), mimetype='text/plain')
+    text = response['choices'][0]
+
+    def generate():
+        yield text
+
+    return Response(generate(), mimetype='text/plain')
