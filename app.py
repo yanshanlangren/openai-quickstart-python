@@ -133,6 +133,7 @@ def stream_chat():
         print("text:[%s]" % text)
 
     def generate():
-        yield bytes(text, 'utf-8')
+        if text and text.get("finish_reason") != "stop":
+            yield bytes(text.get("delta").get("content"), 'utf-8')
 
     return Response(generate(), mimetype='text/plain')
