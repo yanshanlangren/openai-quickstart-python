@@ -202,12 +202,19 @@
                             xhrFields: {
                                 responseType: "blob",
                                 onprogress: function (e) {
-                                    console.log(e.currentTarget.responseText);
+                                    console.log(e);
                                 }
                             },
                             success: function (result) {
                                 console.log(result);
-                                $("#streamDialog").append(result + "<br/>");
+                                let reader = new FileReader();
+                                let content;
+                                reader.onload = function (e) {
+                                    console.log(e);
+                                    content = reader.result;
+                                }
+                                reader.readAsText(result)
+                                $("#streamDialog").append(content + "<br/>");
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
