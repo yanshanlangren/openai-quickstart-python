@@ -200,7 +200,7 @@
                             processData: false,
                             contentType: false,
                             xhrFields: {
-                                responseType: "blob",
+                                {#responseType: "blob",#}
                                 onprogress: function (e) {
                                     console.log(e.currentTarget.responseText);
                                 }
