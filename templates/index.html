@@ -206,15 +206,13 @@
                                 }
                             },
                             success: function (result) {
-                                console.log(result);
-                                let reader = new FileReader();
-                                let content;
-                                reader.onload = function (e) {
-                                    console.log(e);
-                                    content = reader.result;
+                                let reader = new window.FileReader();
+                                reader.readAsDataURL(result);
+                                reader.onloadend = function () {
+                                    let base64data = reader.result;
+                                    console.log(base64data);
+                                    $("#streamDialog").append(base64data + "<br/>");
                                 }
-                                reader.readAsText(result)
-                                $("#streamDialog").append(content + "<br/>");
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
