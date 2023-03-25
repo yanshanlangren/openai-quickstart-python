@@ -130,8 +130,9 @@ def stream_chat():
     for data in response:
         print("data:[%s]" % data)
         text = data['choices'][0]
+        print("text:[%s]" % text)
 
     def generate():
-        yield text
+        yield bytes(text, 'utf-8')
 
     return Response(generate(), mimetype='text/plain')
