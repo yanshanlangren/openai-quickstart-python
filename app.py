@@ -130,7 +130,7 @@ def stream_chat():
             if text and text.get("delta") and text.get("delta").get("content"):
                 ret_str = text.get("delta").get("content")
                 print("ret string: [%s]" % json.dumps(text.get("delta"), ensure_ascii=False))
-                ret = bytes(ret_str, 'utf-16')
+                ret = bytes(ret_str)
                 print("ret byte[%s]" % ret)
                 yield ret
 
