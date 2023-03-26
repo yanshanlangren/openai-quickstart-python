@@ -212,11 +212,8 @@
                                 reader.onloadend = function () {
                                     let base64data = reader.result;
                                     let base64Str = base64data.split(',')[1];
-                                    {#let str = getDecode(base64Str);#}
-                                    let str_utf16 = btoa(base64Str)
-                                    console.log("utf16:" + str_utf16)
-                                    {#console.log("utf8:" + str)#}
-                                    $("#streamDialog").append(str_utf16 + "<br/>");
+                                    let str = getDecode(base64Str);
+                                    $("#streamDialog").append(str + "<br/>");
                                 }
                             },
                             error: function (data) {

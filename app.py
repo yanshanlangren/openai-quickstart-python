@@ -10,6 +10,8 @@ from src.service import edit_service
 from src.service import image_service
 from src.service import fine_tuned_service
 from src.service import audio_service
+from src.third.tencent_tts import tts
+import re
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -127,11 +129,15 @@ def stream_chat():
     def generate():
         for data in response:
             text = data['choices'][0]
+            buffer = ""
             if text and text.get("delta") and text.get("delta").get("content"):
                 ret_str = text.get("delta").get("content")
                 print("ret string: [%s]" % json.dumps(text.get("delta"), ensure_ascii=False))
-                ret = bytes(ret_str)
-                print("ret byte[%s]" % ret)
-                yield ret
+                if re.search(r"\W", ret_str) is None:
+                    audio = tts(buffer)
+                    ret = bytes(audio, 'utf-8')
+                    buffer = ""
+                    yield ret
+                buffer += ret_str
 
     return Response(generate(), mimetype='application/octet-stream')
