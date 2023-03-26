@@ -197,6 +197,7 @@
                                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                             }).join(''));
                         }
+
                         $.ajax({
                             url: ajaxUrl.server + "/stream/chat",
                             type: 'POST',
@@ -226,6 +227,10 @@
                             error: function (data) {
                                 console.log("失败:" + data);
                             }
+                        }).done(function (data) {
+                            console.log("ajax.done:" + data);
+                        }).fail(function (data) {
+                            console.log('Error: ', data);
                         })
 
                         // 将blob转换为地址，一般用于页面上面的回显，这个url可以直接被 audio 标签使用
