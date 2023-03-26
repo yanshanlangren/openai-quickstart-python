@@ -173,13 +173,11 @@
 
                     // 录音可用事件监听，发生于mediaRecorder.stop()调用后，mediaRecorder.onstop 前
                     mediaRecorder.ondataavailable = (e) => {
-                        console.log(e)
                         chunks.push(e.data)
                     }
 
                     // 录音结束事件监听，发生在mediaRecorder.stop()和 mediaRecorder.ondataavailable 调用后
                     mediaRecorder.onstop = () => {
-                        console.log("record end")
                         // 获取到录音的blob
                         let blob = new Blob(chunks, {type: "audio/webm;codecs=opus"});
 
@@ -205,7 +203,7 @@
                             xhrFields: {
                                 responseType: "blob",
                                 onprogress: function (e) {
-                                    console.log(e);
+                                    console.log("xhr onprogress function:" + e);
                                 }
                             },
                             success: function (result) {
