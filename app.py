@@ -127,9 +127,9 @@ def stream_chat():
         return {}
 
     def generate():
+        buffer = ""
         for data in response:
             text = data['choices'][0]
-            buffer = ""
             if text and text.get("delta") and text.get("delta").get("content"):
                 ret_str = text.get("delta").get("content")
                 print("ret string: [%s]" % json.dumps(text.get("delta"), ensure_ascii=False))
@@ -139,6 +139,7 @@ def stream_chat():
                     ret = bytes(audio, 'utf-8')
                     buffer = ""
                     yield ret
-                buffer += ret_str
+                else:
+                    buffer += ret_str
 
     return Response(generate(), mimetype='application/octet-stream')
