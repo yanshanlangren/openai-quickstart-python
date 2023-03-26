@@ -191,7 +191,25 @@
                         var fileData = new FormData();
                         fileData.append('audio', file);
                         console.log(fileData)
-
+                        var utf16to8 = function (str) {
+                            var out, i, len, c;
+                            out = "";
+                            len = str.length;
+                            for (i = 0; i < len; i++) {
+                                c = str.charCodeAt(i);
+                                if ((c >= 0x0001) && (c <= 0x007F)) {
+                                    out += str.charAt(i);
+                                } else if (c > 0x07FF) {
+                                    out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                                    out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+                                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+                                } else {
+                                    out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+                                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+                                }
+                            }
+                            return out;
+                        }
                         $.ajax({
                             url: ajaxUrl.server + "/stream/chat",
                             type: 'POST',
@@ -213,9 +231,9 @@
                                     console.log(base64data);
                                     let base64Str = base64data.split(',')[1];
                                     console.log(base64Str)
-                                    let str = new Buffer(base64Str, 'base64').toString('utf8');
+                                    let str = window.btoa(base64Str);
                                     console.log(str)
-                                    console.log(new Buffer(decodeURIComponent(base64Str), 'base64').toString('utf8'));
+                                    console.log(utf16to8(str))
                                     $("#streamDialog").append(str + "<br/>");
                                 }
                             },
