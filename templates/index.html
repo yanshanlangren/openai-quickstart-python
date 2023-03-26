@@ -7,7 +7,6 @@
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-    <script src="https://raw.githubusercontent.com/yckart/jquery.base64.js/master/jquery.base64.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -191,25 +190,12 @@
 
                         var fileData = new FormData();
                         fileData.append('audio', file);
-                        console.log(fileData)
-                        var utf16to8 = function (str) {
-                            var out, i, len, c;
-                            out = "";
-                            len = str.length;
-                            for (i = 0; i < len; i++) {
-                                c = str.charCodeAt(i);
-                                if ((c >= 0x0001) && (c <= 0x007F)) {
-                                    out += str.charAt(i);
-                                } else if (c > 0x07FF) {
-                                    out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
-                                    out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
-                                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
-                                } else {
-                                    out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
-                                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
-                                }
-                            }
-                            return out;
+                        console.log(fileData);
+
+                        function getDecode(str) {
+                            return decodeURIComponent(atob(str).split('').map(function (c) {
+                                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                            }).join(''));
                         }
                         $.ajax({
                             url: ajaxUrl.server + "/stream/chat",
@@ -232,9 +218,8 @@
                                     console.log(base64data);
                                     let base64Str = base64data.split(',')[1];
                                     console.log(base64Str)
-                                    let str = $.base64.decode(base64Str);
+                                    let str = getDecode(base64Str);
                                     console.log(str)
-                                    console.log(utf16to8(str))
                                     $("#streamDialog").append(str + "<br/>");
                                 }
                             },
