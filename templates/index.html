@@ -211,12 +211,12 @@
                                 reader.readAsDataURL(result);
                                 reader.onloadend = function () {
                                     let base64data = reader.result;
-                                    console.log(base64data);
                                     let base64Str = base64data.split(',')[1];
-                                    console.log(base64Str)
                                     let str = getDecode(base64Str);
-                                    console.log(str)
-                                    $("#streamDialog").append(str + "<br/>");
+                                    let str_utf16 = btoa(base64Str)
+                                    console.log("utf16:" + str_utf16)
+                                    console.log("utf8:" + str)
+                                    $("#streamDialog").append(str_utf16 + "<br/>");
                                 }
                             },
                             error: function (data) {
