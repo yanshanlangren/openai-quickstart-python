@@ -186,11 +186,8 @@
                         //  将blob转换为file对象，名字可以自己改，一般用于需要将文件上传到后台的情况
                         let file = new window.File([blob], "record.webm");
 
-                        console.log(file)
-
-                        var fileData = new FormData();
+                        let fileData = new FormData();
                         fileData.append('audio', file);
-                        console.log(fileData);
 
                         function getDecode(str) {
                             return decodeURIComponent(atob(str).split('').map(function (c) {
