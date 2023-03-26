@@ -7,6 +7,7 @@
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="https://github.com/yckart/jquery.base64.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -231,7 +232,7 @@
                                     console.log(base64data);
                                     let base64Str = base64data.split(',')[1];
                                     console.log(base64Str)
-                                    let str = window.btoa(base64Str);
+                                    let str = $.base64.decode(base64Str);
                                     console.log(str)
                                     console.log(utf16to8(str))
                                     $("#streamDialog").append(str + "<br/>");
