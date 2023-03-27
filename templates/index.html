@@ -141,9 +141,9 @@
                                 $("#dialog").html("");
                                 for (let message in result.dialog) {
                                     $("#dialog").append("[" + result.dialog[message]["role"] + "]: " + result.dialog[message]["content"] + "<br/>");
-                                    $("#robotAudio").attr('src', "data:audio/wav;base64," + result.audio);
-                                    $("#robotAudio")[0].play();
                                 }
+                                $("#robotAudio").attr('src', "data:audio/wav;base64," + result.audio);
+                                $("#robotAudio")[0].play();
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
@@ -214,6 +214,8 @@
                                     let base64Str = base64data.split(',')[1];
                                     let str = getDecode(base64Str);
                                     $("#streamDialog").append(str + "<br/>");
+                                    $("#robotAudio").attr('src', "data:audio/wav;base64," + base64Str);
+                                    $("#robotAudio")[0].play();
                                 }
                             },
                             error: function (data) {
