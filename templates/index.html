@@ -187,12 +187,6 @@
                         let fileData = new FormData();
                         fileData.append('audio', file);
 
-                        function getDecode(str) {
-                            return decodeURIComponent(atob(str).split('').map(function (c) {
-                                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                            }).join(''));
-                        }
-
                         $.ajax({
                             url: ajaxUrl.server + "/stream/chat",
                             type: 'POST',
@@ -200,14 +194,9 @@
                             processData: false,
                             contentType: false,
                             success: function (result) {
-                                {#let reader = new window.FileReader();#}
-                                {#reader.readAsDataURL(result);#}
-                                {#reader.onloadend = function () {#}
-                                {#    let base64data = reader.result;#}
-                                {#    let base64Str = base64data.split(',')[1];#}
-                                {#    let str = getDecode(base64Str);#}
-                                {#    $("#streamDialog").append(str + "<br/>");#}
                                 $("#streamDialog").append(result + "<br/>");
+                                $("#streamAudio").attr('src', "data:audio/wav;base64," + result);
+                                $("#streamAudio")[0].play();
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
