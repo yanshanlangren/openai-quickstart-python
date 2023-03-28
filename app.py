@@ -135,8 +135,8 @@ def stream_chat():
                 print("ret string: [%s]" % json.dumps(text.get("delta"), ensure_ascii=False))
                 if re.search(r"\W", ret_str) is not None:
                     print("buffer:[%s]" % buffer)
-                    audio = tts(buffer)
-                    yield audio + "<br/>"
+                    # audio = tts(buffer)
+                    yield buffer + "<br/>"
                     buffer = ""
                 else:
                     buffer += ret_str
