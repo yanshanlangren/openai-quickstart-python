@@ -196,8 +196,17 @@
                             success: function (result) {
                                 $("#streamDialog").append(result + "<br/>");
                                 let arrRes = result.split("<br/>")
+
                                 $("#robotAudio").attr('src', "data:audio/wav;base64," + arrRes[0]);
                                 $("#robotAudio")[0].play();
+                                let i = 1;
+                                while (i < arrRes.length) {
+                                    $("#robotAudio").on('ended', function () {
+                                        $("#robotAudio").attr('src', "data:audio/wav;base64," + arrRes[i]);
+                                        $("#robotAudio")[0].play();
+                                        i++;
+                                    });
+                                }
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
