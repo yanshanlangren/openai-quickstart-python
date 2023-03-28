@@ -195,8 +195,8 @@
                             contentType: false,
                             success: function (result) {
                                 $("#streamDialog").append(result + "<br/>");
-                                $("#streamAudio").attr('src', "data:audio/wav;base64," + result);
-                                $("#streamAudio")[0].play();
+                                $("#robotAudio").attr('src', "data:audio/wav;base64," + result);
+                                $("#robotAudio")[0].play();
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
