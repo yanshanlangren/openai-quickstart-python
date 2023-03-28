@@ -199,44 +199,20 @@
                             data: fileData,
                             processData: false,
                             contentType: false,
-                            xhr: function () {
-                                var xhr = $.ajaxSetting.xhr();
-                                if (xhr.upload) {
-                                    xhr.upload.onprogress = function (e) {
-                                        if (e.lengthComputable) {
-                                            var percent = Math.floor(e.loaded / e.total * 100);
-                                            console.log(percent);
-                                        }
-                                    }
-                                }
-                                return xhr;
-                            },
-                            xhrFields: {
-                                responseType: "blob",
-                                onprogress: function (e) {
-                                    console.log("xhr onprogress function:" + e);
-                                    $("#robotAudio").attr('src', "data:audio/wav;base64," + e);
-                                    $("#robotAudio")[0].play();
-                                }
-                            },
                             success: function (result) {
-                                let reader = new window.FileReader();
-                                reader.readAsDataURL(result);
-                                reader.onloadend = function () {
-                                    let base64data = reader.result;
-                                    let base64Str = base64data.split(',')[1];
-                                    let str = getDecode(base64Str);
-                                    $("#streamDialog").append(str + "<br/>");
-                                }
+                                {#let reader = new window.FileReader();#}
+                                {#reader.readAsDataURL(result);#}
+                                {#reader.onloadend = function () {#}
+                                {#    let base64data = reader.result;#}
+                                {#    let base64Str = base64data.split(',')[1];#}
+                                {#    let str = getDecode(base64Str);#}
+                                {#    $("#streamDialog").append(str + "<br/>");#}
+                                $("#streamDialog").append(result + "<br/>");
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
                             }
-                        }).done(function (data) {
-                            console.log("ajax.done:" + data);
-                        }).fail(function (data) {
-                            console.log('Error: ', data);
-                        })
+                        });
 
                         // 将blob转换为地址，一般用于页面上面的回显，这个url可以直接被 audio 标签使用
                         let url = (window.URL || webkitURL).createObjectURL(blob);
