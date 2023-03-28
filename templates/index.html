@@ -197,13 +197,26 @@
                             url: ajaxUrl.server + "/stream/chat",
                             type: 'POST',
                             data: fileData,
-                            cache: false,
                             processData: false,
                             contentType: false,
+                            xhr: function () {
+                                var xhr = $.ajaxSetting.xhr();
+                                if (xhr.upload) {
+                                    xhr.upload.onprogress = function (e) {
+                                        if (e.lengthComputable) {
+                                            var percent = Math.floor(e.loaded / e.total * 100);
+                                            console.log(percent);
+                                        }
+                                    }
+                                }
+                                return xhr;
+                            },
                             xhrFields: {
                                 responseType: "blob",
                                 onprogress: function (e) {
                                     console.log("xhr onprogress function:" + e);
+                                    $("#robotAudio").attr('src', "data:audio/wav;base64," + e);
+                                    $("#robotAudio")[0].play();
                                 }
                             },
                             success: function (result) {
@@ -214,8 +227,6 @@
                                     let base64Str = base64data.split(',')[1];
                                     let str = getDecode(base64Str);
                                     $("#streamDialog").append(str + "<br/>");
-                                    $("#robotAudio").attr('src', "data:audio/wav;base64," + base64Str);
-                                    $("#robotAudio")[0].play();
                                 }
                             },
                             error: function (data) {
