@@ -136,7 +136,7 @@ def stream_chat():
                 if re.search(r"\W", ret_str) is not None:
                     print("buffer:[%s]" % buffer)
                     audio = tts(buffer)
-                    yield audio
+                    yield audio + "<br/>"
                     buffer = ""
                 else:
                     buffer += ret_str
