@@ -198,7 +198,7 @@
                             processData: false,
                             contentType: false,
                             success: function (result) {
-                                $("#streamDialog").append(result + "<br/>");
+                                {#$("#streamDialog").append(result + "<br/>");#}
                                 voicePlay(result);
                             },
                             error: function (data) {
