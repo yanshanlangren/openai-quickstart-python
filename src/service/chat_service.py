@@ -92,4 +92,4 @@ def stream_voice_chat(prompt):
     #     "content": response.get("choices")[0].get("message").get("content")
     # })
     # resp_content = response.get("choices")[0].get("message").get("content")
-    return {"dialog": dialog, "audio": generate()}
+    return generate

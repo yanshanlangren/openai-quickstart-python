@@ -108,7 +108,8 @@ def stream_chat():
     audio_file = request.files["audio"]
     prompt = file_service.file_upload(audio_file)
     print("prompt:%s" % prompt)
-    return chat_service.stream_voice_chat(prompt=prompt)
+    generator = chat_service.stream_voice_chat(prompt=prompt)
+    return Response(generator(), mimetype='text/plain')
     # try:
     #     response = openai.ChatCompletion.create(
     #         model="gpt-3.5-turbo",
