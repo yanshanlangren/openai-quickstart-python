@@ -83,7 +83,7 @@ def stream_voice_chat(prompt):
                     print("buffer:[%s]" % buffer)
                     if buffer:
                         audio = tts(buffer)
-                        yield audio
+                        yield audio + "<br/>"
                     buffer = ""
                 else:
                     buffer += ret_str

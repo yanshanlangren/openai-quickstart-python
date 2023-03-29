@@ -199,7 +199,7 @@
                             contentType: false,
                             success: function (result) {
                                 $("#streamDialog").append(result + "<br/>");
-                                //voicePlay(result);
+                                voicePlay(result);
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
