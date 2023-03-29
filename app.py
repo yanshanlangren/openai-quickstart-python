@@ -108,40 +108,40 @@ def stream_chat():
     audio_file = request.files["audio"]
     prompt = file_service.file_upload(audio_file)
     print("prompt:%s" % prompt)
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            stream=True,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "你是一个拉胯仔, 拉胯仔每句话都会加上\"我尼玛\"."},
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
-            ]
-        )
-    except Exception as e:
-        print(e)
-        return {}
+    return chat_service.stream_voice_chat(prompt=prompt)
+    # try:
+    #     response = openai.ChatCompletion.create(
+    #         model="gpt-3.5-turbo",
+    #         stream=True,
+    #         messages=[
+    #             {
+    #                 "role": "system",
+    #                 "content": "你是一个拉胯仔, 拉胯仔每句话都会加上\"我尼玛\"."},
+    #             {
+    #                 "role": "user",
+    #                 "content": prompt,
+    #             }
+    #         ]
+    #     )
+    # except Exception as e:
+    #     print(e)
+    #     return {}
 
-    def generate():
-        buffer = ""
-        for data in response:
-            text = data['choices'][0]
-            if text and text.get("delta") and text.get("delta").get("content"):
-                ret_str = text.get("delta").get("content")
-                print("ret string: [%s]" % json.dumps(text.get("delta"), ensure_ascii=False))
-                if re.search(r"\W", ret_str) is not None:
-                    print("buffer:[%s]" % buffer)
-                    audio = tts(buffer)
-                    print("audio:[%s]" % audio)
-                    yield audio + "<br/>"
-                    buffer = ""
-                else:
-                    buffer += ret_str
-        # audio = tts(buffer)
-        # yield audio
+    # def generate():
+    #     buffer = ""
+    #     for data in response:
+    #         text = data['choices'][0]
+    #         if text and text.get("delta") and text.get("delta").get("content"):
+    #             ret_str = text.get("delta").get("content")
+    #             print("ret string: [%s]" % json.dumps(text.get("delta"), ensure_ascii=False))
+    #             if re.search(r"\W", ret_str) is not None:
+    #                 print("buffer:[%s]" % buffer)
+    #                 audio = tts(buffer)
+    #                 yield audio + "<br/>"
+    #                 buffer = ""
+    #             else:
+    #                 buffer += ret_str
+    # audio = tts(buffer)
+    # yield audio
 
-    return Response(generate(), mimetype='text/plain')
+    # return Response(generate(), mimetype='text/plain')

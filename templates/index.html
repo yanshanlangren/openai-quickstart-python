@@ -199,8 +199,7 @@
                             contentType: false,
                             success: function (result) {
                                 $("#streamDialog").append(result + "<br/>");
-                                let arrRes = result.split("<br/>");
-                                voicePlay(arrRes);
+                                //voicePlay(result);
                             },
                             error: function (data) {
                                 console.log("失败:" + data);
@@ -214,7 +213,8 @@
                 });
             });
 
-            async function voicePlay(arrRes) {
+            async function voicePlay(result) {
+                let arrRes = result.split("<br/>");
                 $("#robotAudio").attr('src', "data:audio/wav;base64," + arrRes[0]);
                 $("#robotAudio")[0].play();
                 let i = 1;
