@@ -15,6 +15,10 @@
                 server: 'https://chat.itpanda.club' //默认服务器地址
             };
 
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms || 1000))
+            }
+
             $("#chat").click(function () {
                 var formData = $("#askForm").serialize();
                 console.log(formData);
@@ -193,19 +197,24 @@
                             data: fileData,
                             processData: false,
                             contentType: false,
-                            success: function (result) {
+                            success: async function (result) {
                                 $("#streamDialog").append(result + "<br/>");
                                 let arrRes = result.split("<br/>")
 
                                 $("#robotAudio").attr('src', "data:audio/wav;base64," + arrRes[0]);
                                 $("#robotAudio")[0].play();
                                 let i = 1;
+                                let c = 0;
                                 while (i < arrRes.length) {
-                                    $("#robotAudio").on('ended', function () {
-                                        $("#robotAudio").attr('src', "data:audio/wav;base64," + arrRes[i]);
-                                        $("#robotAudio")[0].play();
-                                        i++;
-                                    });
+                                    if (i > c) {
+                                        $("#robotAudio").on('ended', function () {
+                                            $("#robotAudio").attr('src', "data:audio/wav;base64," + arrRes[i]);
+                                            $("#robotAudio")[0].play();
+                                            i++;
+                                        });
+                                        c++;
+                                    }
+                                    await sleep(1000);
                                 }
                             },
                             error: function (data) {
