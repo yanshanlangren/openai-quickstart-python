@@ -74,12 +74,14 @@ def stream_voice_chat(prompt):
 
     def generate():
         buffer = ""
+        p = re.compile(r"\W")
         for data in response:
             text = data['choices'][0]
             if text and text.get("delta") and text.get("delta").get("content"):
                 ret_str = text.get("delta").get("content")
                 print("ret string: [%s]" % json.dumps(text.get("delta"), ensure_ascii=False))
-                if re.search(r"\W", ret_str) is not None:
+                if p.search(ret_str) is not None:
+                    buffer += p.sub("", ret_str)
                     print("buffer:[%s]" % buffer)
                     if buffer:
                         audio = tts(buffer)

@@ -1,5 +1,6 @@
 import openai
 
+
 def func():
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -102,3 +103,11 @@ def stream_response():
 
 # if __name__ == '__main__':
 #     app.run()
+import re
+
+ret_str = " 好吗"
+p = re.compile(r"\W")
+print(p.search(ret_str))
+print(p.sub("", ret_str))
+print(ret_str.replace(r"\W", ''))
+print(123)
