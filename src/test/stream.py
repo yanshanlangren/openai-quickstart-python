@@ -103,11 +103,16 @@ def stream_response():
 
 # if __name__ == '__main__':
 #     app.run()
-import re
 
-ret_str = " 好吗"
-p = re.compile(r"\W")
-print(p.search(ret_str))
-print(p.sub("", ret_str))
-print(ret_str.replace(r"\W", ''))
-print(123)
+
+response = openai.ChatCompletion.create(
+    model="davinci",
+    stream=True,
+    max_tokens=5,
+    n=1,
+    stop=None,
+    temperature=0.5,
+    prompt="Hello, world!",
+)
+for message in response:
+    print(message.choices[0].text)

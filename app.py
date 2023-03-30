@@ -1,6 +1,4 @@
 import json
-import os
-import openai
 from flask import Flask, render_template, request, Response
 from src.service import chat_service
 from src.service import file_service
@@ -10,11 +8,8 @@ from src.service import edit_service
 from src.service import image_service
 from src.service import fine_tuned_service
 from src.service import audio_service
-from src.third.tencent_tts import tts
-import re
 
 app = Flask(__name__)
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 @app.route("/", methods=["GET", "POST"])
