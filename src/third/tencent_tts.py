@@ -38,7 +38,6 @@ def tts(text):
         # 返回的resp是一个TextToVoiceResponse的实例，与请求对象对应
         print("tts_req:[%s]" % req)
         resp = tts_client.TtsClient(cred, "ap-shanghai", clientProfile).TextToVoice(req)
-        print("tts_resp:[%s]" % resp)
         # 输出json格式的字符串回包
         return resp.Audio
 
